@@ -1,2 +1,6 @@
 venv_trading_bot
 venv_trading_bot/*
+.vscode*
+.pytest_cache*
+algo_trading_bot.egg-info*
+__pycache__
