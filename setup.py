@@ -4,8 +4,10 @@ setup(
     name='algo_trading_bot',
     version='0.1.0',
     description='A simple algorithmic trading bot',
-    author='Your Name',
-    author_email='your.email@example.com',
+    author='Ido Golberg',
+    license='MIT',
+
+    author_email='ido.goldb@gmail.com',
     packages=find_packages(include=['src', 'src.*']),
     install_requires=[
         'yfinance',
