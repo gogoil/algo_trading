@@ -6,9 +6,9 @@ import matplotlib.pyplot as plt
 def download_data(ticker, start_date, end_date):
     return yf.download(ticker, start=start_date, end=end_date)
 
-def calculate_moving_averages(data, short_window, long_window):
-    data['SMA_50'] = data['Close'].rolling(window=short_window).mean()
-    data['SMA_200'] = data['Close'].rolling(window=long_window).mean()
+def calculate_moving_averages(data):
+    data['SMA_50'] = data['Close'].rolling(window=50).mean()
+    data['SMA_200'] = data['Close'].rolling(window=200).mean()
     return data
 
 def generate_signals(data):
@@ -17,19 +17,29 @@ def generate_signals(data):
     data['Position'] = data['Signal'].diff()
     return data
 
-def backtest_strategy(data):
-    data['Market Return'] = data['Close'].pct_change()
-    data['Strategy Return'] = data['Market Return'] * data['Position'].shift(1)
-    data['Cumulative Market Return'] = (1 + data['Market Return']).cumprod()
-    data['Cumulative Strategy Return'] = (1 + data['Strategy Return']).cumprod()
-    return data
 
-def plot_results(data):
-    plt.figure(figsize=(10, 5))
-    plt.plot(data['Cumulative Market Return'], label='Market Return')
-    plt.plot(data['Cumulative Strategy Return'], label='Strategy Return')
-    plt.legend()
-    plt.show()
+
+
+class TradingBot:
+    def __init__(self, strategy, data):
+        self.strategy = strategy(data)
+        self.data = data
+
+    def backtest_strategy(self):
+        self.strategy.generate_signals()
+        self.data['Market Return'] = self.data['Close'].pct_change()
+        self.data['Strategy Return'] = self.data['Market Return'] * self.data['Position'].shift(1)
+        self.data['Cumulative Market Return'] = (1 + self.data['Market Return']).cumprod()
+        self.data['Cumulative Strategy Return'] = (1 + self.data['Strategy Return']).cumprod()
+        return self.data
+
+    def plot_results(self):
+        plt.figure(figsize=(10, 5))
+        plt.plot(self.data['Cumulative Market Return'], label='Market Return')
+        plt.plot(self.data['Cumulative Strategy Return'], label='Strategy Return')
+        plt.legend()
+        plt.show()
+
 
 if __name__ == "__main__":
     ticker = "AAPL"
@@ -37,7 +47,7 @@ if __name__ == "__main__":
     end_date = "2023-01-01"
     
     data = download_data(ticker, start_date, end_date)
-    data = calculate_moving_averages(data, short_window=50, long_window=200)
+    data = calculate_moving_averages(data)
     data = generate_signals(data)
     data = backtest_strategy(data)
     plot_results(data)
