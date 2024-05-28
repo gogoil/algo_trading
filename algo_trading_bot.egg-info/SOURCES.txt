@@ -1,3 +1,4 @@
+LICENSE
 README.md
 setup.py
 algo_trading_bot.egg-info/PKG-INFO

@@ -21,4 +21,5 @@ setup(
             'run-trading-bot=scripts.run_trading_bot:main',
         ],
     },
+    test_suite='tests',
 )
