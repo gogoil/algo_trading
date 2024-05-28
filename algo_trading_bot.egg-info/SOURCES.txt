@@ -1,0 +1,10 @@
+README.md
+setup.py
+algo_trading_bot.egg-info/PKG-INFO
+algo_trading_bot.egg-info/SOURCES.txt
+algo_trading_bot.egg-info/dependency_links.txt
+algo_trading_bot.egg-info/entry_points.txt
+algo_trading_bot.egg-info/requires.txt
+algo_trading_bot.egg-info/top_level.txt
+src/__init__.py
+src/trading_bot.py

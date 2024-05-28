@@ -1,0 +1,2 @@
+[console_scripts]
+run-trading-bot = scripts.run_trading_bot:main
