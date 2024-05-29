@@ -34,29 +34,32 @@ class TradingBot:
         self.data['Cumulative Strategy Return'] = (1 + self.data['Strategy Return']).cumprod()
         return self.data
 
-    def plot_results(self):
+    def plot_results(self, stock:str):
         plt.figure(figsize=(10, 5))
         plt.plot(self.data['Cumulative Market Return'], label='Market Return')
         plt.plot(self.data['Cumulative Strategy Return'], label='Strategy Return')
+        plt.title(f'{stock} - {str(self.strategy)}')
         plt.legend()
         plt.show()
 
-    def run_backtest(self):
+    def run_backtest(self) -> None:
         for ticker, stock_data in self.data.items():
             strategy_instance = self.strategy(stock_data)
             strategy_instance.generate_signals()
 
 if __name__ == "__main__":
-    tickers = ["AAPL", "TSLA", 'SPY']
-    start_date = "2020-01-01"
-    end_date = "2023-01-01"
+    # tickers = ["TSLA", "BTC-USD", 'SPY', 'MSTR']
+    tickers = ["AAPL", "MSFT", "AMZN", "GOOGL", "META"]
+    start_date = "2021-01-01"
+    end_date = "2024-05-27"
     data = {}
     for ticker in tickers:
         data[ticker] = download_data(ticker, start_date, end_date)
-    bot = TradingBot(MovingAverageCrossover, data['TSLA'])
-    backtest_results = bot.backtest_strategy()
-    bot.plot_results()
 
-    bot = TradingBot(MovingAverageCrossover, data['SPY'])
-    backtest_results = bot.backtest_strategy()
-    bot.plot_results()
+    strategies = [RSIStrategy, MovingAverageCrossover]  # Add any other strategies you want to test
+
+    for ticker, stock_data in data.items():
+        for strategy in strategies:
+            bot = TradingBot(strategy, stock_data)
+            backtest_results = bot.backtest_strategy()
+            bot.plot_results(ticker)

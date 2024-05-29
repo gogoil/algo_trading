@@ -32,8 +32,7 @@ def test_backtest_strategy(sample_data):
     sample_data['Signal'][50:] = 1.0
     sample_data['Position'] = sample_data['Signal'].diff()
     data = backtest_strategy(sample_data)
-    assert 'Market Return' in data.columns
     assert 'Strategy Return' in data.columns
     assert 'Cumulative Market Return' in data.columns
     assert 'Cumulative Strategy Return' in data.columns
-
+    assert 'Market Return' in data.columns
