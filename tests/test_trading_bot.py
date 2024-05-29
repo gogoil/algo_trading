@@ -1,7 +1,7 @@
 import pytest
 import pandas as pd
 from src.trading_bot import download_data, calculate_moving_averages, generate_signals, backtest_strategy
-
+# WIP relevent for previous commit
 @pytest.fixture
 def sample_data():
     dates = pd.date_range('2020-01-01', periods=200)

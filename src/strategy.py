@@ -45,3 +45,19 @@ class RSIStrategy(Strategy):
     def __str__(self):
         return "RSI Strategy"
 
+class AutoregressiveStrategy(Strategy):
+    def __init__(self, data, lag):
+        super().__init__(data)
+        self.lag = lag
+        self.beta = np.zeros(lag)
+    
+    def fit(self, data):
+        # Fit autoregressive model
+        for i in range(self.lag):
+            self.beta[i] = np.corrcoef(data['Close'][i:], data['Close'][:-i])[0, 1]
+
+    def generate_signals(self):
+        # Calculate autoregressive values
+        pass
+    def __str__(self):
+        return "Autoregressive Strategy"

@@ -56,7 +56,7 @@ if __name__ == "__main__":
     for ticker in tickers:
         data[ticker] = download_data(ticker, start_date, end_date)
 
-    strategies = [RSIStrategy, MovingAverageCrossover]  # Add any other strategies you want to test
+    strategies = [AutoregressiveStrategy]  # Add any other strategies you want to test
 
     for ticker, stock_data in data.items():
         for strategy in strategies:
