@@ -30,4 +30,4 @@ Contributions are welcome! If you would like to contribute to this project, plea
 This project is licensed under the [MIT License](LICENSE).
 
 ## Contact
-For any questions or suggestions, please feel free to reach out to the project maintainer at [your-email@example.com](mailto:your-email@example.com).
+For any questions or suggestions, please feel free to reach out to the project maintainer at [ido.goldb@gmail.com](mailto:ido.goldb@gmail.com).
