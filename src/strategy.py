@@ -1,3 +1,5 @@
+import numpy as np
+
 class Strategy:
     def __init__(self, data):
         self.data = data
@@ -45,19 +47,31 @@ class RSIStrategy(Strategy):
     def __str__(self):
         return "RSI Strategy"
 
+#WIP #TODO
 class AutoregressiveStrategy(Strategy):
     def __init__(self, data, lag):
         super().__init__(data)
         self.lag = lag
         self.beta = np.zeros(lag)
     
-    def fit(self, data):
+    def predict(self, X):
+        return X @ self.beta
+
+    def fit(self, X, y):
         # Fit autoregressive model
-        for i in range(self.lag):
-            self.beta[i] = np.corrcoef(data['Close'][i:], data['Close'][:-i])[0, 1]
+        self.beta = np.linalg.lstsq(X, y, rcond=None)[0]
+
+    def generate_delayed_data(self, x):
+        X = np.zeros((len(x) - self.lag, self.lag))
+        for i in range(self.lag, len(data)):
+            X[i, :] = data[i - self.lag:i]
+            y[i] = data[i]
+        return X,y
 
     def generate_signals(self):
         # Calculate autoregressive values
         pass
+
+
     def __str__(self):
         return "Autoregressive Strategy"
