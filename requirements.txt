@@ -2,3 +2,5 @@ yfinance
 pandas
 numpy
 matplotlib
+torch
+iTransformers
