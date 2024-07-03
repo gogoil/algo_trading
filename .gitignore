@@ -4,3 +4,4 @@ venv_trading_bot/*
 .pytest_cache*
 algo_trading_bot.egg-info*
 __pycache__
+*__pycache__*
