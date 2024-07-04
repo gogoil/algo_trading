@@ -1,0 +1,9 @@
+{
+    "data_dir": "./data",
+    "batch_size": 32,
+    "num_workers": 4,
+    "learning_rate": 0.001,
+    "max_epochs": 3,
+    "use_gpu": true,
+    "use_mixed_precision": false
+}
