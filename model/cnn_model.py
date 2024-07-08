@@ -19,16 +19,16 @@ class CnnModel(pl.LightningModule):
         self.conv5 = nn.Conv1d(256, 256, kernel_size=5, padding=2)
         self.conv6 = nn.Conv1d(256, 16, kernel_size=7, padding=3, stride=2)
 
-        self.fc1 = nn.Linear(1024, 1024)
-        self.fc2 = nn.Linear(1024, 1)
+        self.fc1 = nn.Linear(256, 512)
+        self.fc2 = nn.Linear(512, 1)
 
         self.dropout = nn.Dropout(0.5)
 
 
         # for inference:
-        self.x_tensor = None
-        self.y_tensor = None
-        self.probabilities_tensor = None
+        # self.x_tensor = None
+        # self.y_tensor = None
+        # self.probabilities_tensor = None
 
     def forward(self, x):
         # x shape: [batch, 3, 32, 32]
@@ -52,7 +52,9 @@ class CnnModel(pl.LightningModule):
         x = F.relu(self.conv4(x)) # torch.Size([batch, 128, 256])
         x = F.relu(self.conv5(x)) # torch.Size([batch, 128, 256])
         x= F.relu(self.conv6(x)) # torch.Size([batch, 64, 256])
+
         x = self.pool(x)
+
         x = x.view(x.size(0), -1)  # Flatten
 
         x = self.dropout(x)
@@ -64,53 +66,53 @@ class CnnModel(pl.LightningModule):
 
     def training_step(self, batch, batch_idx):
         x, y = batch
-        logits = self(x)
-        loss = F.cross_entropy(logits, y)
+        y_pred = self(x)
+        loss = F.mse_loss(y_pred, y)
         self.log('train_loss', loss)
         return loss
 
     def validation_step(self, batch, batch_idx):
         x, y = batch
-        logits = self(x)
-        loss = F.cross_entropy(logits, y)
-        preds = torch.argmax(logits, dim=1)
-        acc = accuracy(preds, y)
+        y_pred = self(x)
+        loss = F.mse_loss(y_pred, y)
+        # preds = torch.argmax(logits, dim=1)
+        # acc = accuracy(preds, y)
         self.log('val_loss', loss, prog_bar=True)
-        self.log('val_acc', acc, prog_bar=True)
+        # self.log('val_acc', acc, prog_bar=True)
         return loss
 
     def test_step(self, batch, batch_idx):
         x, y = batch
         logits = self(x)
-        loss = F.cross_entropy(logits, y)
-        preds = torch.argmax(logits, dim=1)
-        acc = accuracy(preds, y)
+        loss = F.mse_loss(logits, y)
+        # preds = torch.argmax(logits, dim=1)
+        # acc = accuracy(preds, y)
         self.log('test_loss', loss, prog_bar=True)
-        self.log('test_acc', acc, prog_bar=True)
+        # self.log('test_acc', acc, prog_bar=True)
         return loss
     
-    def predict_step(self, batch, batch_idx):
-        x, y = batch
-        prob = F.softmax(self(x),dim=1)
-        if self.x_tensor is None:
-            self.x_tensor = x
-            self.y_tensor = y
-            self.probabilities_tensor = prob
-        else:
-            self.x_tensor = torch.cat((self.x_tensor, x), dim=0)
-            self.y_tensor = torch.cat((self.y_tensor, y), dim=0)
-            self.probabilities_tensor = torch.cat((self.probabilities_tensor, prob), dim=0)
-        return x, y, prob
+    # def predict_step(self, batch, batch_idx):
+    #     x, y = batch
+    #     prob = F.softmax(self(x),dim=1)
+    #     if self.x_tensor is None:
+    #         self.x_tensor = x
+    #         self.y_tensor = y
+    #         self.probabilities_tensor = prob
+    #     else:
+    #         self.x_tensor = torch.cat((self.x_tensor, x), dim=0)
+    #         self.y_tensor = torch.cat((self.y_tensor, y), dim=0)
+    #         self.probabilities_tensor = torch.cat((self.probabilities_tensor, prob), dim=0)
+    #     return x, y, prob
 
-    def on_prediction_end(self):
-        print('prediction_ended')
+    # def on_prediction_end(self):
+    #     print('prediction_ended')
 
     def configure_optimizers(self):
         optimizer = torch.optim.Adam(self.parameters(), lr=self.hparams.learning_rate)
         return optimizer
 
-def accuracy(preds, y):
-    return torch.tensor(torch.sum(preds == y).item() / len(preds))
+# def accuracy(preds, y):
+#     return torch.tensor(torch.sum(preds == y).item() / len(preds))
 
 # Example usage
 if __name__ == "__main__":

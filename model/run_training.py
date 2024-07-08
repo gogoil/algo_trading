@@ -6,7 +6,7 @@ from pytorch_lightning.loggers import WandbLogger
 from pytorch_lightning.callbacks import ModelCheckpoint
 import wandb
 
-from data.data_loader import StockDataModule
+from data.data_loader import StockDataModule, load_stock_data
 from model.cnn_model import CnnModel
 
 def load_training_params(file_path='model/training_params.json'):
@@ -17,16 +17,22 @@ def load_training_params(file_path='model/training_params.json'):
 def main():
     # Load training parameters
     params = load_training_params()
+        # Example usage
+    ticker = 'AAPL'
+    start_date = '2020-01-01'
+    end_date = '2023-12-31'
+    df = load_stock_data(ticker, start_date, end_date)
 
     # Create data module
     data_module = StockDataModule(
-        data_dir=params['data_dir'],
+        df=df,
+        #data_dir=params['data_dir'],
         batch_size=params['batch_size'],
-        num_workers=params['num_workers']
+        #num_workers=params['num_workers']
     )
 
     # Create model
-    model = CnnModel(learning_rate=params['learning_rate'])
+    model = CnnModel(learning_rate=params['learning_rate'], number_of_channels=2)
 
     # Set up logging
     current_time = datetime.now().strftime('%H_%M_%S__%d%m%Y')

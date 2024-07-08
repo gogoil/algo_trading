@@ -7,5 +7,14 @@ algo_trading_bot.egg-info/dependency_links.txt
 algo_trading_bot.egg-info/entry_points.txt
 algo_trading_bot.egg-info/requires.txt
 algo_trading_bot.egg-info/top_level.txt
+data/__init__.py
+data/data_loader.py
+model/__init__.py
+model/cnn_model.py
+model/run_training.py
 src/__init__.py
+src/chornos_foundation_time_series.py
+src/helper_func.py
+src/strategy.py
 src/trading_bot.py
+tests/test_trading_bot.py

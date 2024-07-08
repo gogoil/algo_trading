@@ -1,13 +1,12 @@
 # Algo Trading
 
 ## Description
-This project is aimed at implementing algorithmic trading strategies in the financial markets.
+Devloping a 1D CNN for analyzing time series for stock price prediction.
+After the model is trained, We can use it's predictions to devlop a stratagey and backtest the strategy
 
 ## Features
 - [ ] Strategy development
 - [ ] Backtesting
-- [ ] Real-time trading
-- [ ] Risk management
 - [ ] Performance analysis
 
 ## Installation
@@ -15,8 +14,8 @@ This project is aimed at implementing algorithmic trading strategies in the fina
 2. Install the required dependencies: `pip install -r requirements.txt`
 
 ## Usage
-1. Navigate to the project directory: `cd algo_trading`
-2. Run the main script: `python main.py`
+<!-- 1. Navigate to the project directory: `cd algo_trading`
+2. Run the main script: `python main.py` -->
 
 ## Contributing
 Contributions are welcome! If you would like to contribute to this project, please follow these steps:
@@ -31,3 +30,7 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Contact
 For any questions or suggestions, please feel free to reach out to the project maintainer at [ido.goldb@gmail.com](mailto:ido.goldb@gmail.com).
+
+## TODO
+- the lookback at dataloader should be a hyperparameter, also in inference
+- add more CNN layers (by budget)

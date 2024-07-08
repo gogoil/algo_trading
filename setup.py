@@ -8,7 +8,7 @@ setup(
     license='MIT',
 
     author_email='ido.goldb@gmail.com',
-    packages=find_packages(include=['src', 'src.*']),
+    packages=find_packages(include=['src', 'src.*', 'model', 'data', 'data.*', 'model.*']),
     install_requires=[
         'yfinance',
         'pandas',
